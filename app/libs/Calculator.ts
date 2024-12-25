@@ -30,9 +30,19 @@ export class Calculator {
     this.dashboard.value += val
   }
 
-  solve() {
-    let expression = this.dashboard.value
-    this.dashboard.value = evaluate(expression)
+  solve(): void {
+    let expression = this.dashboard.value;
+
+    if (expression === "" || /[+\-*/.%]{2,}/.test(expression)) {
+      this.dashboard.value = 'invalid';
+      return;
+    }
+
+    try {
+      this.dashboard.value = evaluate(expression);
+    } catch (error) {
+      this.dashboard.value = 'invalid';
+    }
   }
 
   clr() {
@@ -52,9 +62,7 @@ export class Calculator {
     } else if (theme === 'theme-one') {
       theme = 'theme-second'
     }
-    setTimeout(() => {
-      this.setTheme(theme);
-    }, 500)
+    this.setTheme(theme);
   }
 
   save() {
